@@ -1,6 +1,8 @@
-youtube-transcript-api==0.6.2
+pinecone
 sentence-transformers==3.0.1
-pinecone-client==2.2.4
+transformers==4.44.2
+torch==2.3.1
+youtube-transcript-api==0.6.2
+yt-dlp
 python-dotenv==1.0.1
-numpy==1.26.4
-pandas==2.2.2
+numpy

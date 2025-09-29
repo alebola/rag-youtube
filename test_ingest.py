@@ -2,7 +2,7 @@ from app.utils import yt_id_from_url, hhmmss
 from app.ingest import get_transcript_auto, segment_transcript
 
 
-url = "https://www.youtube.com/watch?v=zxQyTK8quyY"
+url = "https://www.youtube.com/watch?v=7JQLiQJzirw"
 vid = yt_id_from_url(url)
 
 rows = get_transcript_auto(
