@@ -1,0 +1,31 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Editor settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Datos locales
+data/transcripts/*.json
+!data/transcripts/.gitignore  # mantenemos el .gitignore dentro
+
+# Cookies o credenciales
+cookies.txt
+.env
+*.env
+
+# Archivos temporales
+*.log
+*.tmp

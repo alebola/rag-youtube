@@ -22,7 +22,7 @@ def time_url(video_id: str, start_sec: float) -> str:
     return f"https://www.youtube.com/watch?v={video_id}&t={int(start_sec)}"
 
 
-# Limpia de texto básica
+# Limpia el texto
 def clean_text(t: str) -> str:
     t = re.sub(r"\s+", " ", t).strip()
     return t
