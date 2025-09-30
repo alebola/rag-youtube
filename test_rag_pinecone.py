@@ -26,13 +26,12 @@ model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniL
 
 question = "Explain briefly what self-attention is and why it's important."
 q_vec = model.encode([question], convert_to_numpy=True)[0]
-hits = query(q_vec, top_k=4, video_id=vid)
+hits = query(q_vec, top_k=8, video_id=vid)
 
 # 5) RAG: respuesta breve + citas con links
 answer, citations = rag_answer_with_citations(vid, question, hits)
 print("\nQ:", question)
 print("A:", answer)
-print("\nCitas:")
+print("\nCitas (orden cronológico):")
 for c in citations:
-    print("-", c["range"], "->", c["url"])
-    print("  snippet:", c["snippet"])
+    print(f"- {c['minute']} -> {c['url']}")
