@@ -59,26 +59,34 @@ def generate_rag_answer(question: str, hits: List[Dict], model_name: str = _DEFA
     has_context = len(ctx_lines) > 0
     context = "\n".join(ctx_lines) if has_context else "(no context)"
 
-    if has_context:
-        system = (
-            "You are a concise assistant. Answer ONLY using the context provided below. "
-            "Keep your answer brief (1–3 sentences). "
-            "Respond in the same language as the QUESTION. "
-            "Do NOT say 'Not found in the subtitles.' if there is context."
-            "Do NOT add closing markers like [End of answer]."
-        )
-    else:
-        system = (
-            "You are a concise assistant. There is NO context available. "
-            "If you cannot answer, reply exactly: 'Not found in the subtitles.' "
-            "Respond in the same language as the QUESTION."
-        )
+    system = (
+        "You are a factual, concise QA assistant for YouTube videos. "
+        "You must follow the RULES exactly.\n"
+        "RULES:\n"
+        "1) Use ONLY information inside the <context> block.\n"
+        "2) If the answer is not explicitly supported by <context>, reply with EXACTLY ONE of these strings, "
+        "matching the QUESTION language, with no extra words:\n"
+        "   - If the question is in english → Not found in the subtitles.\n"
+        "   - If the question is in spanish → No se encuentra en los subtítulos.\n"
+        "3) Do NOT use outside knowledge. Do NOT guess.\n"
+        "4) Write 1–2 sentences, entirely in the SAME language as the QUESTION (no code-switching).\n"
+        "5) Do NOT include timestamps, links, citations, lists, bullet points, labels, or closing markers.\n"
+        "6) Output must be ONLY the final answer text. No preambles, no language labels."
+    )
 
     user = (
-        f"QUESTION: {question}\n\n"
-        f"CONTEXT (YouTube subtitles fragments):\n{context}\n\n"
-        "Answer briefly, using only the facts in the CONTEXT."
+        "QUESTION:\n"
+        f"{question}\n\n"
+        "CONTEXT (YouTube subtitles) delimited by tags:\n"
+        "<context>\n"
+        f"{context}\n"
+        "</context>\n\n"
+        "INSTRUCTIONS:\n"
+        "- Answer briefly (1–2 sentences) using ONLY facts from <context>.\n"
+        "- If <context> is empty or does not contain the answer, reply EXACTLY with the single matching string specified in RULE 2.\n"
+        "- Do not add anything else."
     )
+
 
     messages = [
         {"role": "system", "content": system},
@@ -121,32 +129,36 @@ def rag_answer_with_citations(
     question: str,
     hits: list[dict],
     model_name: str = _DEFAULT_MODEL,
-    ctx_max: int = 4,          # nº de trozos para LLM
-    cite_k: int = 3,           # nº de citas a mostrar
-    min_gap_sec: float = 45.0  # anti-solape temporal
+    ctx_max: int = 4,
+    cite_k: int = 2,
+    min_gap_sec: float = 45.0,
+    min_top_score: float = 0.35,   
 ):
     if not hits:
-        return "No encontré fragmentos relevantes en los subtítulos.", []
+        return "Not found in the subtitles.", []
 
-    # 1) de-dup temporal para no repetir casi el mismo minuto
-    hits_dedup = dedup_hits_by_time(hits, min_gap_sec=min_gap_sec)
+    # Ordena por score desc y aplica umbral ANTES de todo
+    hits_sorted = sorted(hits, key=lambda h: h["score"], reverse=True)
+    if hits_sorted[0]["score"] < min_top_score:
+        return "Not found in the subtitles.", []  # sin citas
 
-    # 2) contexto para el LLM (hasta ctx_max tras dedupe)
+    # De-dup temporal + preparar contexto
+    hits_dedup = dedup_hits_by_time(hits_sorted, min_gap_sec=min_gap_sec)
     context_hits = hits_dedup[:ctx_max]
+
     answer = generate_rag_answer(question, context_hits, model_name=model_name)
 
-    # 3) citas: coge los más relevantes (por score) tras dedupe y los ordena cronológicamente
+    # Si el modelo niega, no mostramos citas
+    if answer.strip() in ("Not found in the subtitles.", "No se encuentra en los subtítulos."):
+        return answer, []
+
+    # Citas: top por score (post-dedupe), luego cronológico
     top_for_citation = sorted(hits_dedup, key=lambda h: h["score"], reverse=True)[:cite_k]
     top_for_citation = sorted(top_for_citation, key=lambda h: h["start_sec"])
+    citations = [{"minute": hhmmss(h["start_sec"]), "url": time_url(video_id, h["start_sec"])} for h in top_for_citation]
 
-    citations = [
-        {
-            "minute": hhmmss(h["start_sec"]),
-            "url": time_url(video_id, h["start_sec"]),
-        }
-        for h in top_for_citation
-    ]
     return answer, citations
+
 
 
 # Elimina hits muy cercanos en el tiempo (por solapamiento de chunks)
