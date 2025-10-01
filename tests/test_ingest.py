@@ -9,9 +9,7 @@ rows = get_transcript_auto(
     vid,
     preferred_langs=('es','en'),
     fallback_url=url,
-    # descomenta UNA de estas dos si tienes 429:
     cookiefile="cookies.txt",
-    #cookiesfrombrowser=('chrome',),  # o ('edge',)
 )
 print("líneas:", len(rows))
 chunks = segment_transcript(rows, window=60, overlap=12)

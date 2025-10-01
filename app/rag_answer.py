@@ -22,13 +22,13 @@ def _load_llm(model_name: str = _DEFAULT_MODEL) -> TextGenerationPipeline:
     _tokenizer = AutoTokenizer.from_pretrained(model_name)
     _model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=torch.float32,   # CPU
+        torch_dtype=torch.float32,   
         low_cpu_mem_usage=True
     )
     _pipe = TextGenerationPipeline(
         model=_model,
         tokenizer=_tokenizer,
-        device=-1,                   # CPU
+        device=-1,                   
         return_full_text=False
     )
     return _pipe
@@ -110,7 +110,6 @@ def generate_rag_answer(question: str, hits: List[Dict], model_name: str = _DEFA
     return text
 
 
-
 # Devuelve citas listas para renderizar
 def format_citations(video_id: str, hits: List[Dict]) -> List[Dict]:
     citations = []
@@ -158,7 +157,6 @@ def rag_answer_with_citations(
     citations = [{"minute": hhmmss(h["start_sec"]), "url": time_url(video_id, h["start_sec"])} for h in top_for_citation]
 
     return answer, citations
-
 
 
 # Elimina hits muy cercanos en el tiempo (por solapamiento de chunks)
