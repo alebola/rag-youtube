@@ -37,7 +37,7 @@ Index YouTube videos, ask natural language questions, and get **concise answers 
 │ └── utils.py           # Helpers (yt_id, time links, etc.)
 ├── data/transcripts/    # Local cache (ignored by git)
 ├── streamlit_app.py     # UI
-├── tests/ # Unit tests
+├── tests/               # Unit tests
 ├── requirements.txt
 └── README.md
 ```
@@ -90,6 +90,7 @@ Perfect to showcase:
 
 This project is licensed under the [MIT License](LICENSE).  
 You are free to use, modify, and distribute it with proper attribution.
+
 
 
 
