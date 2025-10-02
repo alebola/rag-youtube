@@ -11,11 +11,11 @@ Index YouTube videos, ask natural language questions, and get **concise answers 
 
 
 ## 🚀 Features
-- 📺 **Index YouTube videos** via subtitles (manual & automatic).  
-- 🔎 **Semantic search** with multilingual embeddings (`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`).  
-- 🤖 **RAG pipeline** (Retrieval-Augmented Generation) to generate short, grounded answers.  
-- ⏱️ **Citations with timestamps**: jump directly to the relevant video moment.  
-- 🎨 **Streamlit UI** with modern design.  
+- **Index YouTube videos** via subtitles (manual & automatic).  
+- **Semantic search** with multilingual embeddings (`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`).  
+- **RAG pipeline** (Retrieval-Augmented Generation) to generate short, grounded answers.  
+- **Citations with timestamps**: jump directly to the relevant video moment.  
+- **Streamlit UI** with modern design.  
 
 
 ## 🛠️ Tech Stack
@@ -42,6 +42,21 @@ Index YouTube videos, ask natural language questions, and get **concise answers 
 ```
 
 
+## 🖼️ Screenshots
+Ask in Spanish
+
+<p align="center"><img src="screenshots/spanish-answer.png" width="600"></p>
+
+Ask in English
+
+<p align="center"><img src="screenshots/english-answer.png" width="600"></p>
+
+Case with no relevant info
+
+<p align="center"><img src="screenshots/no-info.png" width="600"></p>
+
+(Screenshots are in /screenshots/ )
+
 ## ⚡ Quickstart
 
 ```bash
@@ -58,6 +73,7 @@ cp .env.example .env
 
 # 4. Run Streamlit app
 streamlit run streamlit_app.py
+```
 
 
 ## 🤝 Why this project?
@@ -67,6 +83,7 @@ Perfect to showcase:
 - **Applied NLP / RAG** skills
 - **Full-stack ML engineering** (backend + UI)
 - **Cloud-native vector DB (Pinecone)** usage
+
 
 
 
