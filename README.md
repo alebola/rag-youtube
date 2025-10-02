@@ -7,6 +7,7 @@ Index YouTube videos, ask natural language questions, and get **concise answers 
   <img src="https://img.shields.io/badge/Pinecone-VectorDB-blue?logo=pinecone" />
   <img src="https://img.shields.io/badge/SentenceTransformers-Embeddings-green" />
   <img src="https://img.shields.io/badge/RAG-LLM-orange" />
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" />
 </p>
 
 
@@ -89,6 +90,7 @@ Perfect to showcase:
 
 This project is licensed under the [MIT License](LICENSE).  
 You are free to use, modify, and distribute it with proper attribution.
+
 
 
 
