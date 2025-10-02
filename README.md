@@ -12,7 +12,7 @@ Index YouTube videos, ask natural language questions, and get **concise answers 
 
 
 ## 🚀 Features
-- **Index YouTube videos** via subtitles (manual & automatic).  
+- **Index YouTube videos** via subtitles.  
 - **Semantic search** with multilingual embeddings (`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`).  
 - **RAG pipeline** (Retrieval-Augmented Generation) to generate short, grounded answers.  
 - **Citations with timestamps**: jump directly to the relevant video moment.  
@@ -90,6 +90,7 @@ Perfect to showcase:
 
 This project is licensed under the [MIT License](LICENSE).  
 You are free to use, modify, and distribute it with proper attribution.
+
 
 
 
