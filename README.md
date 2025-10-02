@@ -85,6 +85,14 @@ Perfect to showcase:
 - **Cloud-native vector DB (Pinecone)** usage
 
 
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).  
+You are free to use, modify, and distribute it with proper attribution.
+
+
+
+
 
 
 
