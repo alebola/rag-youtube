@@ -141,7 +141,12 @@ with col_left:
     st.markdown("**URL del vídeo de YouTube**")  
     c1, c2 = st.columns([0.78, 0.22])
     with c1:
-        url = st.text_input("", placeholder="https://www.youtube.com/watch?v=...", label_visibility="collapsed")
+        url = st.text_input(
+            "URL del vídeo de YouTube", 
+            placeholder="https://www.youtube.com/watch?v=...", 
+            label_visibility="collapsed"
+        )
+
     with c2:
         index_btn = st.button("Indexar", type="primary")
 
@@ -228,7 +233,7 @@ with col_left:
             f'''
             <div style="display:flex;justify-content:center;margin: 10px 0 6px;">
               <img src="{thumb_url}" alt="Miniatura del video"
-                   style="max-width: 520px; width: 100%; border-radius: 12px;
+                     style="max-width: 520px; width: 100%; border-radius: 12px;
                           box-shadow: 0 8px 24px rgba(0,0,0,.08); border:1px solid #eee;">
             </div>
             ''',
@@ -256,7 +261,7 @@ with col_right:
                 q_vec = embedder.encode([question], convert_to_numpy=True)[0]
                 hits_all = query(q_vec, top_k=TOP_K, video_id=last_vid)
                 hits = [h for h in hits_all if float(h.get("score", 0)) >= MIN_SCORE]
-                
+
             if not hits:
                 st.info("No encontré fragmentos suficientemente relevantes en este video.")
                 st.stop()
